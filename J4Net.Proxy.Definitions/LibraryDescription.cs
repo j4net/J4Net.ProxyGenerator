@@ -2,13 +2,10 @@
 
 namespace DSL
 {
-    public class LibraryDescription
+    public class LibraryDescription : Description
     {
-        public List<ClassDescription> Classes;
-
-        public LibraryDescription(List<ClassDescription> classes)
-        {
-            Classes = classes;
-        }
+        public readonly List<ClassDescription> Classes;
+        public LibraryDescription(string name, List<ClassDescription> classes) 
+            : base(name, null) => Classes = classes;
     }
 }

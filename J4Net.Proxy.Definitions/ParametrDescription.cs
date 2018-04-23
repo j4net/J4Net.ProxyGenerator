@@ -2,12 +2,7 @@
 {
     public class ParametrDescription : Description
     {
-        public string Type { get; }
-
-        public ParametrDescription(string name, string type)
-        {
-            Name = name;
-            Type = type;
-        }
+        public readonly string Type;
+        public ParametrDescription(string name, string type) : base(name, null) => Type = type;
     }
 }

@@ -46,7 +46,7 @@
     <Compile Include="FieldDescription.cs" />
     <Compile Include="LibraryDescription.cs" />
     <Compile Include="MethodDescription.cs" />
-    <Compile Include="Modifier.cs" />
+    <Compile Include="ModifierDescription.cs" />
     <Compile Include="ParametrDescription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

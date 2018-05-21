@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DSL
+﻿namespace DSL
 {
     public enum ModifierDescription
     {

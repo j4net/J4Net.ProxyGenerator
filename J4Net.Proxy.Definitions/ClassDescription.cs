@@ -7,7 +7,7 @@ namespace DSL
         public readonly string PackageName;
         public readonly List<FieldDescription> FieldsDescriptions;
         public readonly List<MethodDescription> MethodsDescriptions;
-        public readonly List<ClassDescription> DependenciesDescriptions;
+        public readonly List<string> DependenciesNames;
         public readonly List<ClassDescription> NestedClassesDescriptions;
         public readonly bool IsNested;
 
@@ -17,7 +17,7 @@ namespace DSL
             List<ModifierDescription> modifiersesDescriptions,
             List<FieldDescription> fieldsDescriptions,
             List<MethodDescription> methodsDescriptions,
-            List<ClassDescription> dependenciesDescriptions,
+            List<string> dependenciesNames,
             List<ClassDescription> nestedClassesDescriptions,
             bool isNested) 
                 : base(name, modifiersesDescriptions)
@@ -25,7 +25,7 @@ namespace DSL
             PackageName = packageName;
             FieldsDescriptions = fieldsDescriptions;
             MethodsDescriptions = methodsDescriptions;
-            DependenciesDescriptions = dependenciesDescriptions;
+            DependenciesNames = dependenciesNames;
             IsNested = isNested;
             NestedClassesDescriptions = nestedClassesDescriptions;
         }

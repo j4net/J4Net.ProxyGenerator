@@ -4,11 +4,11 @@ namespace DSL
 {
     public class MethodDescription : Description
     {
-        public readonly List<ParametrDescription> ParametersDescription;
+        public readonly List<ParameterDescription> ParametersDescription;
         public readonly string ReturnType;
 
         public MethodDescription(string name, List<ModifierDescription> modifiersDescriptions,
-            List<ParametrDescription> parametersDescription, string returnType)
+            List<ParameterDescription> parametersDescription, string returnType)
                 : base(name, modifiersDescriptions)
         {
             ParametersDescription = parametersDescription;

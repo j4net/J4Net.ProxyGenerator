@@ -27,7 +27,7 @@ namespace DSL
         public ClassDescription GetClassDescription(string fullName)
         {
             if (!classes.ContainsKey(fullName))
-                throw new ClassDescriptionNotFoundException("Corresponding class description not found");
+                throw new DescriptionNotFoundException("Corresponding class description not found");
 
             return classes[fullName];
         }
@@ -35,17 +35,11 @@ namespace DSL
         public string GetFullName(ClassDescription classDescription)
         {
             if (!classFullNames.ContainsKey(classDescription))
-                throw new ClassDescriptionNotFoundException("Corresponding class description not found");
+                throw new DescriptionNotFoundException("Corresponding class description not found");
 
             return classFullNames[classDescription];
         }
 
         public IEnumerable<ClassDescription> GetClasses() => classes.Select(el => el.Value);
-    }
-
-    public class ClassDescriptionNotFoundException : Exception
-    {
-        public ClassDescriptionNotFoundException(string message) : base(message)
-        { }
     }
 }

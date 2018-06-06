@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ClassDescription.cs" />
     <Compile Include="Description.cs" />
+    <Compile Include="DescriptionNotFound.cs" />
     <Compile Include="FieldDescription.cs" />
     <Compile Include="LibraryDescription.cs" />
     <Compile Include="MethodDescription.cs" />

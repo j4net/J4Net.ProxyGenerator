@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using DSL;
@@ -16,7 +15,7 @@ namespace ProxyGenerator
             string assemblyName,
             string assemblyOutputPath,
             Action<IEnumerable<SyntaxNode>> sourceWriter = null, 
-            Action<string> compiltionLogWriter = null)
+            Action<string> compiltionLogger = null)
         {
             var classGenerator = new ClassProxyGenerator(new MethodBodyGetter());
             var proxySource = new LibraryProxyGenerator(classGenerator).Generate(description);
@@ -24,7 +23,7 @@ namespace ProxyGenerator
             var trees = CompilationTreesGetter.GetCompilationTreesFrom(proxySource);
             sourceWriter?.Invoke(trees.Select(el => el.GetRoot()));
 
-            new Compiller().Compile(trees, assemblyName, assemblyOutputPath, compiltionLogWriter);
+            new Compiller().Compile(trees, assemblyName, assemblyOutputPath, compiltionLogger);
         }
     }
 }

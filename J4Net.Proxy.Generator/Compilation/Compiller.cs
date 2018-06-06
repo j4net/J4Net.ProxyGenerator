@@ -30,9 +30,9 @@ namespace ProxyGenerator.Compilation
             LogCompilationResult(compilationLogWriter, compilation.Emit(path));
         }
 
-        private void LogCompilationResult(Action<string> logWriter, EmitResult compilationResult)
+        private void LogCompilationResult(Action<string> logger, EmitResult compilationResult)
         {
-            if (logWriter == null)
+            if (logger == null)
                 return;
 
             foreach (var diagnostic in compilationResult.Diagnostics)
@@ -41,10 +41,10 @@ namespace ProxyGenerator.Compilation
                     ? "Error"
                     : "Info";
 
-                logWriter($"{type} -- {diagnostic.Id}: {diagnostic.GetMessage()}");
+                logger($"{type} -- {diagnostic.Id}: {diagnostic.GetMessage()}");
             }
 
-            logWriter($"Info -- {(compilationResult.Success ? "S" : "Uns")}uccess compilation");
+            logger($"Info -- {(compilationResult.Success ? "S" : "Uns")}uccess compilation");
         }
     }
 }

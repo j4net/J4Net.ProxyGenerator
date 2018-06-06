@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using ProxyGenerator.SourceGeneration;
@@ -10,21 +11,22 @@ namespace ProxyGenerator.Compilation
         public static List<SyntaxTree> GetCompilationTreesFrom(
             ProxySource proxySource)
         {
-            var compilationTrees = new List<SyntaxTree>();
+            return proxySource
+                .NamespaceUnits
+                .Select(NamespaceUnitToSyntaxTree)
+                .ToList();
+        }
 
-            foreach (var namespaceUnit in proxySource.NamespaceUnits)
-            {
-                var namespaceDeclaration = namespaceUnit.NamespaceDeclaration;
-                var usings = SyntaxFactory.List(namespaceUnit.Usings);
+        public static SyntaxTree NamespaceUnitToSyntaxTree(NamespaceUnit unit)
+        {
+            var namespaceDeclaration = unit.NamespaceDeclaration;
+            var usings = SyntaxFactory.List(unit.Usings);
 
-                var compilationUnit = SyntaxFactory.CompilationUnit()
-                    .AddMembers(namespaceDeclaration)
-                    .WithUsings(usings);
+            var compilationUnit = SyntaxFactory.CompilationUnit()
+                .AddMembers(namespaceDeclaration)
+                .WithUsings(usings);
 
-                compilationTrees.Add(SyntaxFactory.SyntaxTree(compilationUnit));
-            }
-
-            return compilationTrees;
+            return SyntaxFactory.SyntaxTree(compilationUnit);
         }
     }
 }

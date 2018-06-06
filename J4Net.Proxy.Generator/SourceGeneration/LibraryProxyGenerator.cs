@@ -19,12 +19,12 @@ namespace ProxyGenerator.SourceGeneration
         public ProxySource Generate(LibraryDescription libraryDescription)
         {
             var toProxyClasses = new Queue<ClassDescription>();
-            var proxyClassesNames = new HashSet<string>();
+            var proxyClassNames = new HashSet<string>();
             var namespaceUnits = new Dictionary<string, NamespaceUnit>();
 
-            var classes = libraryDescription.GetClasses().ToList();
+            var classes = libraryDescription.GetClasses();
             toProxyClasses.EnqueueRange(classes);
-            proxyClassesNames.AddMany(classes.Select(libraryDescription.GetFullName));
+            proxyClassNames.AddMany(classes.Select(libraryDescription.GetFullName));
 
             while (toProxyClasses.Count != 0)
             {
@@ -33,25 +33,36 @@ namespace ProxyGenerator.SourceGeneration
                 if (classDescription.IsNested)
                     continue;
 
-                var toProxyDependencies = classDescription
-                    .DependenciesNames
-                    .Where(el => !proxyClassesNames.Contains(el))
-                    .Select(libraryDescription.GetClassDescription);
-
-                toProxyClasses.EnqueueRange(toProxyDependencies);
-                proxyClassesNames.Add(libraryDescription.GetFullName(classDescription));
-
-                var classProxy = classProxyGenerator.Generate(classDescription);
-
-                var nestedClassProxies = classDescription.NestedClassesDescriptions
-                    .Select(el => classProxyGenerator.Generate(el))
-                    .ToArray();
-
-                classProxy = classProxy.AddMembers(nestedClassProxies);
-                AddClassToNamespaceUnits(libraryDescription, classProxy, classDescription, namespaceUnits);
+                ProcessClassDescription(classDescription, proxyClassNames, libraryDescription, toProxyClasses, namespaceUnits);
             }
 
             return new ProxySource(namespaceUnits.Values);
+        }
+
+
+        public void ProcessClassDescription(
+            ClassDescription classDescription, 
+            HashSet<string> proxyClassNames, 
+            LibraryDescription libraryDescription,
+            Queue<ClassDescription> toProxyClasses,
+            Dictionary<string, NamespaceUnit> namespaceUnits)
+        {
+            var toProxyDependencies = classDescription
+                .DependenciesNames
+                .Where(el => !proxyClassNames.Contains(el))
+                .Select(libraryDescription.GetClassDescription);
+
+            toProxyClasses.EnqueueRange(toProxyDependencies);
+            proxyClassNames.Add(libraryDescription.GetFullName(classDescription));
+
+            var classProxy = classProxyGenerator.Generate(classDescription);
+
+            var nestedClassProxies = classDescription.NestedClassesDescriptions
+                .Select(el => classProxyGenerator.Generate(el))
+                .ToArray();
+
+            classProxy = classProxy.AddMembers(nestedClassProxies);
+            AddClassToNamespaceUnits(libraryDescription, classProxy, classDescription, namespaceUnits);
         }
 
         private void AddClassToNamespaceUnits(

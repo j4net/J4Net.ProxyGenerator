@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ProxyGenerator.Utils
+namespace ProxyGenerator.Infrastructure
 {
     internal static class EnumearbleExtension
     {

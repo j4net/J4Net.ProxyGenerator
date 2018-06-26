@@ -17,7 +17,8 @@ namespace ProxyGenerator.Compilation
         {
             var references = new MetadataReference[]
             {
-                MetadataReference.CreateFromFile(typeof(object).Assembly.Location)
+                MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+                MetadataReference.CreateFromFile("J4Net.Core.dll")
             };
 
             var compilation = CSharpCompilation.Create(
@@ -30,7 +31,8 @@ namespace ProxyGenerator.Compilation
             LogCompilationResult(compilationLogWriter, compilation.Emit(path));
         }
 
-        private void LogCompilationResult(Action<string> logger, EmitResult compilationResult)
+        private static void LogCompilationResult(Action<string> logger,
+                            EmitResult compilationResult)
         {
             if (logger == null)
                 return;

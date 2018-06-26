@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ProxyGenerator
+namespace ProxyGenerator.Infrastructure
 {
     internal static class QueueExtension
     {

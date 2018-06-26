@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ProxyGenerator.Utils
+namespace ProxyGenerator.Infrastructure
 {
     public static class HashSetExtension
     {

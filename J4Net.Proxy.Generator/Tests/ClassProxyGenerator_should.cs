@@ -3,14 +3,23 @@ using DSL;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NUnit.Framework;
 using ProxyGenerator.SourceGeneration;
-using ProxyGenerator.Tests;
+using ProxyGenerator.SourceGeneration.MethodGeneration;
 
-namespace ProxyGenerator
+namespace ProxyGenerator.Tests
 {
     [TestFixture]
     class ClassProxyGenerator_should
     {
-        private readonly ClassProxyGenerator classProxyGenerator = new ClassProxyGenerator(new MethodBodyGetter());
+        private readonly ClassProxyGenerator classProxyGenerator;
+
+        public ClassProxyGenerator_should()
+        {
+            var methodBodyGetter = new MethodBodyGetter();
+            var methodProxyGenerator = new MethodProxyGenerator(methodBodyGetter);
+            var constructorProxyGenerator = new ConstructorProxyGenerator(methodBodyGetter);
+
+            classProxyGenerator = new ClassProxyGenerator(methodProxyGenerator, constructorProxyGenerator);
+        }
 
         [Test]
         public void GenerateSimpleClass()
@@ -28,7 +37,7 @@ namespace ProxyGenerator
             var classDeclaration = classProxyGenerator.Generate(classDescription);
 
             Assert.AreEqual("MyClass", classDeclaration.Identifier.ToString());
-            Assert.AreEqual(0, classDeclaration.Members.Count);
+            Assert.AreEqual(3, classDeclaration.Members.Count);
             Assert.AreEqual(0, classDeclaration.Modifiers.Count);
 
             TestBase.CheckModifiers(new HashSet<string>(), classDeclaration.Modifiers);
@@ -41,7 +50,8 @@ namespace ProxyGenerator
                 "myMethod",
                 new List<ModifierDescription>{ModifierDescription.PUBLIC},
                 new List<ParameterDescription>(),
-                "void"
+                "void",
+                isConstructor: false
             );
 
             var classDescription = new ClassDescription(
@@ -115,7 +125,8 @@ namespace ProxyGenerator
                     new ParameterDescription("arg1", "int"),
                     new ParameterDescription("arg31", "MyType")
                 },
-                "void"
+                "void",
+                isConstructor: false
             );
 
             var classDescription = new ClassDescription(
@@ -129,7 +140,7 @@ namespace ProxyGenerator
                 isNested: false);
 
             var classDeclaration = classProxyGenerator.Generate(classDescription);
-            var method = classDeclaration.Members[0] as MethodDeclarationSyntax;
+            var method = classDeclaration.Members[4] as MethodDeclarationSyntax;
             TestBase.CheckParameters(methodDescription.Name, methodDescription.ParametersDescription,
                 method.ParameterList.Parameters);
         }
@@ -141,7 +152,8 @@ namespace ProxyGenerator
                 "myMethod",
                 new List<ModifierDescription> { ModifierDescription.PROTECTED },
                 new List<ParameterDescription>(),
-                "void"
+                "void",
+                isConstructor: false
             );
 
             var classDescription = new ClassDescription(
@@ -155,7 +167,7 @@ namespace ProxyGenerator
                 isNested: false);
 
             var classDeclaration = classProxyGenerator.Generate(classDescription);
-            var method = classDeclaration.Members[0] as MethodDeclarationSyntax;
+            var method = classDeclaration.Members[4] as MethodDeclarationSyntax;
             TestBase.CheckModifiers(new HashSet<string>{"protected","virtual"}, method.Modifiers);
         }
     }

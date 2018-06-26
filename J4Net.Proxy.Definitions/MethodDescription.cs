@@ -17,7 +17,8 @@ namespace DSL
             ParametersDescription = parametersDescription;
             ReturnType = returnType;
             IsConstructor = isConstructor;
-            Guid = System.Guid.NewGuid().ToString("N").Substring(0, 5);
+            Guid = System.Guid.NewGuid().ToString("N")
+                              .Substring(0, 5);
         }
     }
 }

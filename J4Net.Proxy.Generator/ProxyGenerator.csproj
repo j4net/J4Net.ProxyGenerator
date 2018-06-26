@@ -43,6 +43,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Documents\Visual Studio 2017\Projects\DSL\DSL\bin\Debug\DSL.dll</HintPath>
     </Reference>
+    <Reference Include="J4Net.Core">
+      <HintPath>..\..\..\..\Desktop\J4Net.Core-master\J4Net.Core\bin\Debug\J4Net.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=1.3.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.1.3.2\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
@@ -102,24 +105,33 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ProxyGenerator.cs" />
+    <Compile Include="SourceGeneration\IGeneratorOptions.cs" />
+    <Compile Include="SourceGeneration\MethodGeneration\ConstructorProxyGenerator.cs" />
+    <Compile Include="SourceGeneration\ServiceCodeGeneration\ClassServiceFieldsBuilder.cs" />
+    <Compile Include="SourceGeneration\ServiceCodeGeneration\MethodServiceFieldsBuilder.cs" />
+    <Compile Include="SourceGeneration\ServiceCodeGeneration\ServiceCodeAddingExtension.cs" />
     <Compile Include="SourceGeneration\ClassProxyGenerator.cs" />
-    <Compile Include="SourceGeneration\IMethodBodyGetter.cs" />
-    <Compile Include="Tests\ClassProxyGenerator_integration_should.cs" />
-    <Compile Include="Tests\ClassProxyGenerator_should.cs" />
+    <Compile Include="SourceGeneration\FieldGeneration\FieldGenerator.cs" />
+    <Compile Include="SourceGeneration\MethodGeneration\IMethodBodyGetter.cs" />
     <Compile Include="Compilation\Compiller.cs" />
     <Compile Include="SourceGeneration\IGenerator.cs" />
-    <Compile Include="SourceGeneration\MethodBodyGetter.cs" />
+    <Compile Include="SourceGeneration\MethodGeneration\MethodBodyGetter.cs" />
+    <Compile Include="SourceGeneration\MethodGeneration\MethodProxyGenerator.cs" />
     <Compile Include="SourceGeneration\NamespaceUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SourceGeneration\FieldGeneration\PropertyBuilder.cs" />
     <Compile Include="SourceGeneration\ProxySource.cs" />
     <Compile Include="SourceGeneration\LibraryProxyGenerator.cs" />
-    <Compile Include="Tests\LibraryProxyGenerator_should.cs" />
+    <Compile Include="SourceGeneration\ServiceCodeGeneration\Utils.cs" />
+    <Compile Include="Tests\ClassProxyGenerator_integration_should.cs" />
+    <Compile Include="Tests\ClassProxyGenerator_should.cs" />
     <Compile Include="Tests\ProxyLibraryGenerator_integration_should.cs" />
     <Compile Include="Tests\TestBase.cs" />
-    <Compile Include="Utils\EnumearbleExtension.cs" />
-    <Compile Include="Utils\HashSetExtension.cs" />
-    <Compile Include="Utils\QueueExtension.cs" />
-    <Compile Include="SourceGeneration\ModifiersConverter.cs" />
+    <Compile Include="Infrastructure\EnumearbleExtension.cs" />
+    <Compile Include="Infrastructure\HashSetExtension.cs" />
+    <Compile Include="SourceGeneration\MethodGeneration\MethodDeclarationSyntaxExtension.cs" />
+    <Compile Include="SourceGeneration\ModifiersDescriptionExtension.cs" />
+    <Compile Include="Infrastructure\QueueExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -135,6 +147,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

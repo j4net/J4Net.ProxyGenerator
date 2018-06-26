@@ -1,14 +1,14 @@
 ﻿using System;
-using DSL;
 using Microsoft.CodeAnalysis.CSharp;
+using DSL;
 
-namespace ProxyGenerator
+namespace CodeGenerator.SourceGeneration
 {
-    public static class ModifiersConverter
+    internal static class DescriptionToSyntaxModifiersTransformer
     {
-        public static SyntaxKind ModifierDescriptionToSyntaxKind(ModifierDescription modifierDescription)
+        public static SyntaxKind Transform(ModifierDescription modifierDescription)
         {
-            SyntaxKind result;
+            var result = default(SyntaxKind);
 
             switch (modifierDescription)
             {
@@ -37,6 +37,14 @@ namespace ProxyGenerator
                     result = SyntaxKind.StaticKeyword;
                     break;
                 }
+                case ModifierDescription.NATIVE:
+                    break;
+                case ModifierDescription.SYNCHRONIZED:
+                    break;
+                case ModifierDescription.TRANSIENT:
+                    break;
+                case ModifierDescription.VOLATILE:
+                    break;
                 default:
                 {
                     throw new NotImplementedException();

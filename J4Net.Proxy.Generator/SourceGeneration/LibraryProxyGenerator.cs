@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using DSL;
-using ProxyGenerator.Utils;
+using ProxyGenerator.Infrastructure;
 
 namespace ProxyGenerator.SourceGeneration
 {
@@ -81,14 +81,21 @@ namespace ProxyGenerator.SourceGeneration
 
             namespaceUnits[packageName].NamespaceDeclaration = newDeclaration;
 
-            var dependenciesUsings = classDescription
+            var serviceUsings = new[]
+            {
+                "J4Net.Core",
+                "J4Net.Core.JNICore.Interface"
+            };
+
+            var usings = classDescription
                 .DependenciesNames
                 .Select(libraryDescription.GetClassDescription)
                 .Select(el => el.PackageName)
                 .Where(el => el != classDescription.PackageName)
+                .Concat(serviceUsings)
                 .Select(el => SyntaxFactory.UsingDirective(SyntaxFactory.IdentifierName(el)));
 
-            namespaceUnits[packageName].Usings.AddRange(dependenciesUsings);
+            namespaceUnits[packageName].Usings.AddRange(usings);
         }
     }
 }

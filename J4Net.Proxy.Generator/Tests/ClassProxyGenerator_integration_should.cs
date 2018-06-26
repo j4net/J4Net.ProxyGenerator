@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NUnit.Framework;
 using ProxyGenerator.SourceGeneration;
+using ProxyGenerator.SourceGeneration.MethodGeneration;
 
 namespace ProxyGenerator.Tests
 {
@@ -17,7 +18,8 @@ namespace ProxyGenerator.Tests
                 "myMethod",
                 new List<ModifierDescription> { ModifierDescription.PUBLIC },
                 new List<ParameterDescription>(),
-                "void"
+                "void",
+                isConstructor: false
             );
 
             var classDescription = new ClassDescription(
@@ -31,7 +33,10 @@ namespace ProxyGenerator.Tests
                 isNested: false);
 
             var methodBodyGetter = new MockMethodBodyGetter();
-            var classProxyGenerator = new ClassProxyGenerator(methodBodyGetter);
+            var methodProxyGenerator = new MethodProxyGenerator(methodBodyGetter);
+            var constructorProxyGenerator = new ConstructorProxyGenerator(methodBodyGetter);
+
+            var classProxyGenerator = new ClassProxyGenerator(methodProxyGenerator, constructorProxyGenerator);
             classProxyGenerator.Generate(classDescription);
 
             Assert.AreEqual(1, methodBodyGetter.CallsCount);
@@ -44,10 +49,10 @@ namespace ProxyGenerator.Tests
         public int CallsCount;
         public string CallArgumentName;
 
-        public BlockSyntax GetBodyFor(MethodDeclarationSyntax methodDeclaration)
+        public BlockSyntax GetBodyFor(MethodDescription methodDescription)
         {
             CallsCount++;
-            CallArgumentName = methodDeclaration.Identifier.ToString();
+            CallArgumentName = methodDescription.Name;
             return SyntaxFactory.Block();
         }
     }

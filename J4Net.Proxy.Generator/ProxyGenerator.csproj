@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compilation\CompilationTreesGetter.cs" />
+    <Compile Include="Infrastructure\JavaUtils.cs" />
     <Compile Include="Infrastructure\StringExtension.cs" />
     <Compile Include="Infrastructure\RoslynUtils.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -109,9 +110,11 @@
     <Compile Include="ProxyGenerator.cs" />
     <Compile Include="SourceGeneration\IGeneratorOptions.cs" />
     <Compile Include="SourceGeneration\MethodGeneration\ConstructorProxyGenerator.cs" />
-    <Compile Include="SourceGeneration\ServiceCodeGeneration\ClassServiceFieldsBuilder.cs" />
-    <Compile Include="SourceGeneration\ServiceCodeGeneration\MethodRefFieldsBuilder.cs" />
-    <Compile Include="SourceGeneration\ServiceCodeGeneration\RefPropertyBuilder.cs" />
+    <Compile Include="SourceGeneration\ServiceCodeGeneration\FieldsBuilding\ClassServiceFieldsBuilder.cs" />
+    <Compile Include="SourceGeneration\ServiceCodeGeneration\FieldsBuilding\MethodRefFieldsBuilder.cs" />
+    <Compile Include="SourceGeneration\ServiceCodeGeneration\PropertiesBuilding\JvmPropertyBuilder.cs" />
+    <Compile Include="SourceGeneration\ServiceCodeGeneration\PropertiesBuilding\PropertiesBuilder.cs" />
+    <Compile Include="SourceGeneration\ServiceCodeGeneration\PropertiesBuilding\RefPropertyBuilder.cs" />
     <Compile Include="SourceGeneration\ServiceCodeGeneration\ServiceCodeAddingExtension.cs" />
     <Compile Include="SourceGeneration\ClassProxyGenerator.cs" />
     <Compile Include="SourceGeneration\FieldGeneration\FieldGenerator.cs" />
@@ -125,7 +128,8 @@
     <Compile Include="SourceGeneration\FieldGeneration\PropertyBuilder.cs" />
     <Compile Include="SourceGeneration\ProxySource.cs" />
     <Compile Include="SourceGeneration\LibraryProxyGenerator.cs" />
-    <Compile Include="SourceGeneration\ServiceCodeGeneration\Utils.cs" />
+    <Compile Include="SourceGeneration\ServiceCodeGeneration\FieldsBuilding\ServiceFieldsBuilder.cs" />
+    <Compile Include="SourceGeneration\ServiceCodeGeneration\ServiceUtils.cs" />
     <Compile Include="Tests\ClassProxyGenerator_integration_should.cs" />
     <Compile Include="Tests\ClassProxyGenerator_should.cs" />
     <Compile Include="Tests\ProxyLibraryGenerator_integration_should.cs" />

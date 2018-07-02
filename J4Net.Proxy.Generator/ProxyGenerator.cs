@@ -18,7 +18,7 @@ namespace ProxyGenerator
             Action<IEnumerable<string>> sourceLogger = null, 
             Action<string> compiltionLogger = null)
         {
-            var methodBodyGetter = new MethodBodyGetter();
+            var methodBodyGetter = new MethodBodyGetter("classRef", "jObject");
             var methodProxyGenerator = new MethodProxyGenerator(methodBodyGetter);
             var constructorProxyGenerator = new ConstructorProxyGenerator(methodBodyGetter);
 

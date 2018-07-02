@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DSL;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NUnit.Framework;
@@ -14,7 +15,7 @@ namespace ProxyGenerator.Tests
 
         public ClassProxyGenerator_should()
         {
-            var methodBodyGetter = new MethodBodyGetter();
+            var methodBodyGetter = new MethodBodyGetter("classRef", "jObject");
             var methodProxyGenerator = new MethodProxyGenerator(methodBodyGetter);
             var constructorProxyGenerator = new ConstructorProxyGenerator(methodBodyGetter);
 
@@ -35,9 +36,10 @@ namespace ProxyGenerator.Tests
                 isNested: false);
 
             var classDeclaration = classProxyGenerator.Generate(classDescription);
+            var serviceMembersCount = 4;
 
             Assert.AreEqual("MyClass", classDeclaration.Identifier.ToString());
-            Assert.AreEqual(3, classDeclaration.Members.Count);
+            Assert.AreEqual(serviceMembersCount, classDeclaration.Members.Count);
             Assert.AreEqual(0, classDeclaration.Modifiers.Count);
 
             TestBase.CheckModifiers(new HashSet<string>(), classDeclaration.Modifiers);
@@ -140,9 +142,14 @@ namespace ProxyGenerator.Tests
                 isNested: false);
 
             var classDeclaration = classProxyGenerator.Generate(classDescription);
-            var method = classDeclaration.Members[4] as MethodDeclarationSyntax;
-            TestBase.CheckParameters(methodDescription.Name, methodDescription.ParametersDescription,
-                method.ParameterList.Parameters);
+            var method = GetFirstMethod(classDeclaration);
+
+            Assert.AreNotEqual(null, method, "Class doesn't exist any methods");
+            TestBase.CheckParameters(
+                    methodDescription.Name,
+                    methodDescription.ParametersDescription,
+                    method.ParameterList.Parameters
+                );
         }
 
         [Test]
@@ -167,8 +174,21 @@ namespace ProxyGenerator.Tests
                 isNested: false);
 
             var classDeclaration = classProxyGenerator.Generate(classDescription);
-            var method = classDeclaration.Members[4] as MethodDeclarationSyntax;
+            var method = GetFirstMethod(classDeclaration);
+
+            Assert.AreNotEqual(null, method, "Class doesn't exist any methods");
             TestBase.CheckModifiers(new HashSet<string>{"protected","virtual"}, method.Modifiers);
+        }
+
+        private MethodDeclarationSyntax GetFirstMethod(ClassDeclarationSyntax declaration)
+        {
+            foreach (var member in declaration.Members)
+            {
+                if (member is MethodDeclarationSyntax method)
+                    return method;
+            }
+
+            return null;
         }
     }
 }

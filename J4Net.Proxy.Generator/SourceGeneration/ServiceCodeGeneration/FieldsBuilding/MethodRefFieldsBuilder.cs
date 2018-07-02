@@ -3,7 +3,7 @@ using DSL;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ProxyGenerator.SourceGeneration.FieldGeneration;
 
-namespace ProxyGenerator.SourceGeneration.ServiceCodeGeneration
+namespace ProxyGenerator.SourceGeneration.ServiceCodeGeneration.FieldsBuilding
 {
     internal class MethodRefFieldsBuilder
     {
@@ -25,7 +25,7 @@ namespace ProxyGenerator.SourceGeneration.ServiceCodeGeneration
             MethodDescription methodDescription)
         {
             return new FieldDescription(
-                Utils.GetMethodRefName(methodDescription),
+                ServiceUtils.GetMethodRefName(methodDescription),
                 GLOBAL_REF_TYPE,
                 new List<ModifierDescription>());
         }

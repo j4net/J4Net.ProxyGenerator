@@ -43,14 +43,10 @@ namespace ProxyGenerator.SourceGeneration
                 .ModifiersDescriptions
                 .ToTokens(isFieldModifiers: false);
 
-            const string classRefName = "classRef";
-            const string lockObjectName = "monitor";
-            const string jObjectName = "jObject";
-
             return SyntaxFactory.ClassDeclaration(classDescription.Name)
                 .AddModifiers(modifiers.ToArray())
-                .AddServiceFields(classDescription, classRefName, jObjectName, lockObjectName)
-                .AddServiceProperties(classDescription, classRefName, lockObjectName)
+                .AddServiceFields(classDescription)
+                .AddServiceProperties(classDescription)
                 .AddMembers(constructors)
                 .AddMembers(methods);
         }

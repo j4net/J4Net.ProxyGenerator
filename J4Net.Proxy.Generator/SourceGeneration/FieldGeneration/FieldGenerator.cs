@@ -14,7 +14,7 @@ namespace ProxyGenerator.SourceGeneration.FieldGeneration
 
         public FieldGenerator(ExpressionSyntax initExpression = null)
         {
-            equalsValueClauseSyntax = initExpression == null
+            equalsValueClauseSyntax = (initExpression == null)
                 ? null
                 : SyntaxFactory.EqualsValueClause(initExpression);
         }

@@ -1,12 +1,16 @@
 ﻿using System.Text;
 using DSL;
+using ProxyGenerator.Infrastructure;
 
 namespace ProxyGenerator.SourceGeneration.ServiceCodeGeneration
 {
-    internal static class Utils
+    internal static class ServiceUtils
     {
         public static string GetMethodRefName(MethodDescription description) 
             => $"method{description.Name}Ref_{description.Guid}";
+
+        public static string GetMethodRefProperty(MethodDescription description) =>
+            GetMethodRefName(description).UppercaseFirstLetter();
 
         public static string GetMethodJavaSignature(MethodDescription description)
         {
@@ -43,7 +47,7 @@ namespace ProxyGenerator.SourceGeneration.ServiceCodeGeneration
                     case "void":
                         return "V";
                     case "string":
-                        return "java/lang/String;";
+                        return "Ljava/lang/String;";
                     default:
                         return $"L{type.Replace(".", "/")};";
                 }

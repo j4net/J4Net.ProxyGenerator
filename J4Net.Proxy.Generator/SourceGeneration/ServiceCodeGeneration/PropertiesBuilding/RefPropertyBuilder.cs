@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ProxyGenerator.Infrastructure;
 
-namespace ProxyGenerator.SourceGeneration.ServiceCodeGeneration
+namespace ProxyGenerator.SourceGeneration.ServiceCodeGeneration.PropertiesBuilding
 {
     internal static class RefPropertyBuilder
     {
@@ -32,11 +32,11 @@ namespace ProxyGenerator.SourceGeneration.ServiceCodeGeneration
                     SyntaxFactory.LiteralExpression(
                         SyntaxKind.StringLiteralExpression,
                         SyntaxFactory.Literal(
-                            Utils.GetMethodJavaSignature(description)))
+                            ServiceUtils.GetMethodJavaSignature(description)))
                 };
 
                 yield return BuildProperty(
-                    Utils.GetMethodRefName(description),
+                    ServiceUtils.GetMethodRefName(description),
                     RoslynUtils.CallExpression(methodCallable, args),
                     lockObjectName);
             }
@@ -69,6 +69,7 @@ namespace ProxyGenerator.SourceGeneration.ServiceCodeGeneration
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.PrivateKeyword));
         }
 
+        #region auxiliary methods
         private static BlockSyntax AddNotNullStatement(this BlockSyntax blockSyntax, string fieldName,
             ExpressionSyntax fieldIdentifierName)
         {
@@ -88,15 +89,15 @@ namespace ProxyGenerator.SourceGeneration.ServiceCodeGeneration
             ExpressionSyntax fieldIdentifierName,
             ExpressionSyntax fieldAssignmentExpression)
         {
-            var assignmentStatement = RoslynUtils.AssignmentStatement(fieldName, fieldAssignmentExpression);
-            var fieldNullStatement = RoslynUtils.CheckNullStatement(fieldName, assignmentStatement);
-            var lockStat = SyntaxFactory.LockStatement(
-                SyntaxFactory.Token(SyntaxKind.LockKeyword),
-                SyntaxFactory.Token(SyntaxKind.OpenParenToken),
+            var assignmentStatement = RoslynUtils.AssignmentExpression(fieldName, fieldAssignmentExpression);
+            var fieldNullStatement = RoslynUtils.CheckNullStatement(fieldName, 
+                assignmentStatement.ToStatement());
+
+            var lockStat = RoslynUtils.LockStatement(
                 SyntaxFactory.IdentifierName(lockObjectName),
-                SyntaxFactory.Token(SyntaxKind.CloseParenToken),
                 SyntaxFactory.Block(fieldNullStatement, SyntaxFactory.ReturnStatement(fieldIdentifierName))
             );
+
             return blockSyntax.AddStatements(lockStat);
         }
 
@@ -110,5 +111,6 @@ namespace ProxyGenerator.SourceGeneration.ServiceCodeGeneration
             return RoslynUtils.CallExpression(
                 getEnvCallExpr.MemberAccessExpression("FindClass"));
         }
+        #endregion
     }
 }

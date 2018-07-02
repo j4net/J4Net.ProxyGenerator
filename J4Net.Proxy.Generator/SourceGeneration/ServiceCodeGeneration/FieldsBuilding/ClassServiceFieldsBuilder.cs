@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ProxyGenerator.SourceGeneration.FieldGeneration;
 
-namespace ProxyGenerator.SourceGeneration.ServiceCodeGeneration
+namespace ProxyGenerator.SourceGeneration.ServiceCodeGeneration.FieldsBuilding
 {
     internal class ClassServiceFieldsBuilder
     {

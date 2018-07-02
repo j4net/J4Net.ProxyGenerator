@@ -99,6 +99,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compilation\CompilationTreesGetter.cs" />
+    <Compile Include="Infrastructure\StringExtension.cs" />
+    <Compile Include="Infrastructure\RoslynUtils.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -108,7 +110,8 @@
     <Compile Include="SourceGeneration\IGeneratorOptions.cs" />
     <Compile Include="SourceGeneration\MethodGeneration\ConstructorProxyGenerator.cs" />
     <Compile Include="SourceGeneration\ServiceCodeGeneration\ClassServiceFieldsBuilder.cs" />
-    <Compile Include="SourceGeneration\ServiceCodeGeneration\MethodServiceFieldsBuilder.cs" />
+    <Compile Include="SourceGeneration\ServiceCodeGeneration\MethodRefFieldsBuilder.cs" />
+    <Compile Include="SourceGeneration\ServiceCodeGeneration\RefPropertyBuilder.cs" />
     <Compile Include="SourceGeneration\ServiceCodeGeneration\ServiceCodeAddingExtension.cs" />
     <Compile Include="SourceGeneration\ClassProxyGenerator.cs" />
     <Compile Include="SourceGeneration\FieldGeneration\FieldGenerator.cs" />

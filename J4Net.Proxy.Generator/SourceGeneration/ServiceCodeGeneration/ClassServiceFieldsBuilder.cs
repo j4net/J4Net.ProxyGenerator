@@ -11,27 +11,30 @@ namespace ProxyGenerator.SourceGeneration.ServiceCodeGeneration
     {
         private const string GLOBAL_REF_TYPE = "GlobalRef";
 
-        public static FieldDeclarationSyntax[] Build()
+        public static IEnumerable<FieldDeclarationSyntax> Build(
+            string classRefName,
+            string jObjectName,
+            string lockObjectName)
         {
             var classRefDescription = new FieldDescription(
-                "classRef",
+                classRefName,
                 GLOBAL_REF_TYPE,
                 new List<ModifierDescription>());
 
             var jObjectDescription = new FieldDescription(
-                "jObject",
+                jObjectName,
                 GLOBAL_REF_TYPE,
                 new List<ModifierDescription> { ModifierDescription.FINAL });
 
             var monitorDescription = new FieldDescription(
-                "monitor",
+                lockObjectName,
                 "object",
                 new List<ModifierDescription>
                 {
                     ModifierDescription.FINAL,
                     ModifierDescription.STATIC
                 });
-
+            
             var fieldGenerator = new FieldGenerator();
 
             return new[] { classRefDescription, jObjectDescription, monitorDescription }

@@ -5,22 +5,20 @@ namespace ProxyGenerator.SourceGeneration.ServiceCodeGeneration
 {
     internal static class Utils
     {
-        public static string GetServiceFieldName(MethodDescription description, string destination)
-        {
-            return $"method_{description.Guid}_{destination}";
-        }
+        public static string GetMethodRefName(MethodDescription description) 
+            => $"method{description.Name}Ref_{description.Guid}";
 
-        public static string GetServiceSignature(MethodDescription description)
+        public static string GetMethodJavaSignature(MethodDescription description)
         {
             var signature = new StringBuilder();
 
             foreach (var paramDescription in description.ParametersDescription)
-                signature.Append(ToServiceSignature(paramDescription.Type));
+                signature.Append(ToJavaSignature(paramDescription.Type));
 
-            return $"({signature}){ToServiceSignature(description.ReturnType)}";
+            return $"({signature}){ToJavaSignature(description.ReturnType)}";
         }
 
-        private static string ToServiceSignature(string type)
+        private static string ToJavaSignature(string type)
         {
             string Sign(string _type)
             {

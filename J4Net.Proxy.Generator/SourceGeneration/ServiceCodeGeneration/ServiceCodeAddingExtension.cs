@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using DSL;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -8,19 +8,32 @@ namespace ProxyGenerator.SourceGeneration.ServiceCodeGeneration
     {
         public static ClassDeclarationSyntax AddServiceFields(
             this ClassDeclarationSyntax classDeclaration,
-            ClassDescription classDescription)
+            ClassDescription classDescription,
+            string classRefName,
+            string jObjectName,
+            string lockObjectName)
         {
-            var standardClassFields = ClassServiceFieldsBuilder.Build();
-            var methodsServiceFields = MethodServiceFieldsBuilder.Build(classDescription.MethodsDescriptions);
+            var fields = ClassServiceFieldsBuilder
+                .Build(classRefName, jObjectName, lockObjectName)
+                .Concat(MethodRefFieldsBuilder.Build(classDescription.MethodsDescriptions))
+                .ToArray();
 
             return classDeclaration
-                .AddMembers(standardClassFields)
-                .AddMembers(methodsServiceFields);
+                .AddMembers(fields);
         }
 
-        public static ClassDeclarationSyntax AddServiceProperties()
+        public static ClassDeclarationSyntax AddServiceProperties(
+            this ClassDeclarationSyntax classDeclaration,
+            ClassDescription classDescription,
+            string classRefName,
+            string lockObjectName)
         {
-            throw new NotImplementedException();
+            var refProperties = RefPropertyBuilder
+                .Build(classDescription.MethodsDescriptions, classRefName, lockObjectName)
+                .ToArray();
+
+            return classDeclaration
+                .AddMembers(refProperties);
         }
     }
 }

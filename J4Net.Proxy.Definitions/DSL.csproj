@@ -43,11 +43,12 @@
   <ItemGroup>
     <Compile Include="ClassDescription.cs" />
     <Compile Include="Description.cs" />
+    <Compile Include="DescriptionNotFound.cs" />
     <Compile Include="FieldDescription.cs" />
     <Compile Include="LibraryDescription.cs" />
     <Compile Include="MethodDescription.cs" />
     <Compile Include="ModifierDescription.cs" />
-    <Compile Include="ParametrDescription.cs" />
+    <Compile Include="ParameterDescription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,12 +1,11 @@
-﻿using System;
-
-namespace DSL
+﻿namespace DSL
 {
     public enum ModifierDescription
     {
         ABSTRACT,
         FINAL,
         NATIVE, // indicate method is implemented in native code
+        PRIVATE,
         PROTECTED,
         PUBLIC,
         STATIC,
